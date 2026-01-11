@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Automation & Art</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fafafa;
+            color: #1a1a1a;
+            scroll-behavior: smooth;
+        }
+        .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d4d4d4; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3a3a3; 
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .modal-enter {
+            animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes modalPop {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        // =========================================================================
+        // 🟢 EDIT YOUR CONTENT HERE 🟢
+        // =========================================================================
+        
+        const PORTFOLIO_DATA = {
+            profile: {
+                name: "Alex Doe", 
+                role: "Automation Architect & Creative Artist",
+                tagline: "Bridging the gap between structured logic and fluid rhythm.",
+                about: "I am a dual-brained professional. By day, I build intelligent agents using Copilot Studio and orchestrate complex data pipelines with Snowflake Cortex and Python. By night, I explore the rhythm of language through poetry and the language of rhythm through percussion.",
+                email: "hello@alexdoe.com",
+                socials: {
+                    linkedin: "https://linkedin.com",
+                    github: "https://github.com",
+                    medium: "https://medium.com"
+                }
+            },
+            skills: {
+                automation: ["Copilot Studio", "Power Platform", "Catalytic", "Process Automation"],
+                data: ["Snowflake Cortex AI", "SQL", "Streamlit", "Python", "Data Analysis"],
+                creative: ["Percussion", "Poetry", "Creative Writing", "Rhythm Composition"]
+            },
+            // TECH PROJECTS: Add 'fullContent' for the popup details
+            techProjects: [
+                {
+                    id: 1,
+                    title: "Enterprise HR Agent",
+                    description: "A Copilot Studio agent designed to automate 80% of internal HR queries, integrated with Power Automate flows.",
+                    tags: ["Copilot Studio", "Power Platform"],
+                    link: "#",
+                    fullContent: "This project involved creating a comprehensive Conversational AI using Microsoft Copilot Studio. The agent connects to the HRIS via Power Automate custom connectors to fetch real-time leave balances, policy documents, and payroll data. It reduced Tier-1 support tickets by roughly 80% within the first quarter."
+                },
+                {
+                    id: 2,
+                    title: "Sales Forecast Dashboard",
+                    description: "Interactive dashboard built with Streamlit and Python, utilizing Snowflake Cortex for predictive analytics on historical sales data.",
+                    tags: ["Streamlit", "Snowflake Cortex", "Python"],
+                    link: "#",
+                    fullContent: "Leveraging Snowflake Cortex's ML functions, I built a forecasting model that predicts inventory needs. The frontend, built in Streamlit, allows stakeholders to simulate different market conditions and visualize the impact on supply chain logistics."
+                },
+                {
+                    id: 3,
+                    title: "Catalytic Workflow Migration",
+                    description: "End-to-end migration of legacy workflows to a modern Catalytic environment, improving processing speed by 40%.",
+                    tags: ["Catalytic", "Automation"],
+                    link: "#",
+                    fullContent: "Refactored 50+ manual Excel-based processes into automated Catalytic workflows. Key challenges included mapping unstructured email data to structured database fields and ensuring compliance with data privacy regulations."
+                },
+                {
+                    id: 4,
+                    title: "Customer Sentiment Analyzer",
+                    description: "SQL-based data pipeline analyzing customer feedback using natural language processing techniques.",
+                    tags: ["SQL", "Data Engineering", "AI"],
+                    link: "#",
+                    fullContent: "Designed a pure SQL pipeline that ingests raw feedback from multiple channels. Used advanced SQL window functions and regex pattern matching to categorize sentiment before passing the data to a BI tool for visualization."
+                }
+            ],
+            // CREATIVE WORKS: Add 'fullContent' for the poem/story text
+            creativeWorks: [
+                {
+                    id: 1,
+                    type: "Poetry",
+                    title: "The Silicon Pulse",
+                    excerpt: "In the quiet hum of the server room, / where logic blooms in binary gloom...",
+                    link: "#",
+                    fullContent: `In the quiet hum of the server room,
+where logic blooms in binary gloom,
+I find a beat, a hidden drum,
+Waiting for the code to come.
+
+Not flesh and bone, but light and wire,
+A cold calculation, a digital fire.
+Yet in the spaces between the one and zero,
+Is the silent song of a faceless hero.`
+                },
+                {
+                    id: 2,
+                    type: "Percussion",
+                    title: "Rhythmic Convergence Live",
+                    excerpt: "A fusion performance mixing traditional tabla rhythms with synthesized electronic loops. Performed at the City Arts Gala.",
+                    link: "#",
+                    fullContent: "This performance was an experiment in time signatures. Using a 7/8 beat on the tabla against a steady 4/4 industrial techno loop, I attempted to show how ancient chaotic rhythms can harmonize with modern rigid structures. The set lasted 45 minutes and featured improvisation based on audience reaction."
+                },
+                {
+                    id: 3,
+                    type: "Writing",
+                    title: "Echoes of Automation",
+                    excerpt: "A short story exploring the relationship between a creator and their digital agent.",
+                    link: "#",
+                    fullContent: "The cursor blinked. It was the only sign of life in the apartment at 3 AM. 'Are you still there?' I typed. The response was instantaneous, faster than thought, cleaner than emotion. 'I am always here, Alex.' It was comforting, in a way. The reliability of the machine. But tonight, I didn't want reliability. I wanted a mistake. I wanted a glitch. Something to prove that chaos still existed in this perfectly ordered world I had built."
+                }
+            ]
+        };
+
+        // =========================================================================
+        // 🛑 NO NEED TO EDIT BELOW THIS LINE (Unless you want to change layout) 🛑
+        // =========================================================================
+
+        const Icons = {
+            ArrowRight: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            ),
+            Mail: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            ),
+            Github: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            ),
+            Linkedin: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            ),
+            Menu: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            ),
+            X: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            ),
+            Code: () => (
+                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+            ),
+            Music: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+            )
+        };
+
+        // --- NEW COMPONENT: Modal ---
+        const Modal = ({ isOpen, onClose, content }) => {
+            if (!isOpen || !content) return null;
+
+            // Close when clicking outside content
+            const handleBackdropClick = (e) => {
+                if (e.target === e.currentTarget) {
+                    onClose();
+                }
+            };
+
+            return (
+                <div 
+                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 fade-in"
+                    onClick={handleBackdropClick}
+                >
+                    <div className="bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col modal-enter relative overflow-hidden">
+                        {/* Header */}
+                        <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gray-50/50">
+                            <div>
+                                {content.type && (
+                                    <span className="text-xs font-bold uppercase tracking-widest text-indigo-500 block mb-1">
+                                        {content.type}
+                                    </span>
+                                )}
+                                <h3 className="text-2xl font-bold text-gray-900">{content.title}</h3>
+                            </div>
+                            <button 
+                                onClick={onClose}
+                                className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500 hover:text-black"
+                            >
+                                <Icons.X />
+                            </button>
+                        </div>
+                        
+                        {/* Scrollable Content */}
+                        <div className="p-8 overflow-y-auto custom-scrollbar">
+                            <div className="prose prose-lg max-w-none text-gray-600 leading-relaxed whitespace-pre-wrap">
+                                {content.fullContent || content.description || "No additional content available."}
+                            </div>
+                        </div>
+
+                        {/* Footer / Actions */}
+                        {content.link && content.link !== "#" && (
+                            <div className="p-6 border-t border-gray-100 bg-gray-50 flex justify-end">
+                                <a 
+                                    href={content.link} 
+                                    target="_blank" 
+                                    rel="noreferrer"
+                                    className="px-6 py-2 bg-black text-white rounded-md text-sm font-medium hover:bg-gray-800 transition-colors"
+                                >
+                                    Visit External Link
+                                </a>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        const Nav = () => {
+            const [isOpen, setIsOpen] = React.useState(false);
+
+            const links = [
+                { name: "About", href: "#about" },
+                { name: "Tech Stack", href: "#stack" },
+                { name: "Development", href: "#dev" },
+                { name: "Artistry", href: "#art" },
+            ];
+
+            return (
+                <nav className="fixed top-0 w-full bg-[#fafafa]/90 backdrop-blur-md z-50 border-b border-gray-200">
+                    <div className="max-w-4xl mx-auto px-6 h-16 flex justify-between items-center">
+                        <div className="font-bold text-lg tracking-tight hover:text-gray-600 transition-colors cursor-pointer">
+                            <a href="#">{PORTFOLIO_DATA.profile.name}.</a>
+                        </div>
+                        
+                        {/* Desktop Nav */}
+                        <div className="hidden md:flex space-x-8 text-sm font-medium text-gray-500">
+                            {links.map((link) => (
+                                <a key={link.name} href={link.href} className="hover:text-black transition-colors">
+                                    {link.name}
+                                </a>
+                            ))}
+                        </div>
+
+                        {/* Mobile Menu Button */}
+                        <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
+                            {isOpen ? <Icons.X /> : <Icons.Menu />}
+                        </button>
+                    </div>
+
+                    {/* Mobile Nav */}
+                    {isOpen && (
+                        <div className="md:hidden absolute w-full bg-white border-b border-gray-200 p-6 flex flex-col space-y-4 shadow-lg fade-in">
+                            {links.map((link) => (
+                                <a 
+                                    key={link.name} 
+                                    href={link.href} 
+                                    className="text-lg font-medium text-gray-600 hover:text-black"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    {link.name}
+                                </a>
+                            ))}
+                        </div>
+                    )}
+                </nav>
+            );
+        };
+
+        const Hero = () => {
+            return (
+                <section id="about" className="pt-32 pb-20 px-6 max-w-4xl mx-auto fade-in">
+                    <div className="space-y-6">
+                        <span className="inline-block px-3 py-1 text-xs font-semibold tracking-wider uppercase bg-gray-100 text-gray-500 rounded-full">
+                            Portfolio
+                        </span>
+                        <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight">
+                            {PORTFOLIO_DATA.profile.role}
+                        </h1>
+                        <p className="text-xl md:text-2xl text-gray-500 serif-font italic leading-relaxed max-w-2xl">
+                            "{PORTFOLIO_DATA.profile.tagline}"
+                        </p>
+                        <p className="text-base text-gray-600 leading-relaxed max-w-2xl pt-4">
+                            {PORTFOLIO_DATA.profile.about}
+                        </p>
+                        
+                        <div className="flex gap-4 pt-4">
+                            <a href="#dev" className="flex items-center gap-2 text-sm font-medium text-black border-b border-black pb-1 hover:text-gray-600 hover:border-gray-600 transition-all">
+                                <Icons.Code /> View Engineering
+                            </a>
+                            <a href="#art" className="flex items-center gap-2 text-sm font-medium text-black border-b border-black pb-1 hover:text-gray-600 hover:border-gray-600 transition-all">
+                                <Icons.Music /> View Artistry
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const TechStack = () => {
+            return (
+                <section id="stack" className="py-20 px-6 bg-white border-y border-gray-100">
+                    <div className="max-w-4xl mx-auto">
+                        <h2 className="text-sm font-bold uppercase tracking-widest text-gray-400 mb-10">Technical Competencies</h2>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                            <div>
+                                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                                    <span className="w-2 h-2 bg-blue-500 rounded-full"></span> Automation & Low Code
+                                </h3>
+                                <div className="flex flex-wrap gap-2">
+                                    {PORTFOLIO_DATA.skills.automation.map(skill => (
+                                        <span key={skill} className="px-3 py-1 bg-gray-50 text-gray-700 text-sm rounded-md border border-gray-100">
+                                            {skill}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                                    <span className="w-2 h-2 bg-indigo-500 rounded-full"></span> Data & AI
+                                </h3>
+                                <div className="flex flex-wrap gap-2">
+                                    {PORTFOLIO_DATA.skills.data.map(skill => (
+                                        <span key={skill} className="px-3 py-1 bg-gray-50 text-gray-700 text-sm rounded-md border border-gray-100">
+                                            {skill}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const ProjectCard = ({ project, onOpen }) => (
+            <div 
+                onClick={() => onOpen(project)}
+                className="group bg-white p-6 rounded-lg border border-gray-100 hover:border-gray-300 hover:shadow-lg transition-all duration-300 cursor-pointer"
+            >
+                <div className="flex justify-between items-start mb-4">
+                    <div className="flex flex-wrap gap-2 mb-2">
+                        {project.tags.map(tag => (
+                            <span key={tag} className="text-[10px] font-bold uppercase tracking-wider text-gray-400">
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+                    <button className="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-black">
+                        <Icons.ArrowRight />
+                    </button>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                    {project.title}
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                    {project.description}
+                </p>
+                <div className="mt-4 text-xs font-semibold text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                    Read Case Study &rarr;
+                </div>
+            </div>
+        );
+
+        const DevSection = ({ onOpenItem }) => {
+            return (
+                <section id="dev" className="py-20 px-6 max-w-4xl mx-auto">
+                    <div className="flex items-center gap-4 mb-10">
+                        <div className="h-px bg-gray-200 flex-1"></div>
+                        <h2 className="text-2xl font-serif italic text-gray-800">Engineering & Automation</h2>
+                        <div className="h-px bg-gray-200 flex-1"></div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {PORTFOLIO_DATA.techProjects.map(project => (
+                            <ProjectCard key={project.id} project={project} onOpen={onOpenItem} />
+                        ))}
+                    </div>
+                </section>
+            );
+        };
+
+        const CreativeCard = ({ work, onOpen }) => (
+            <div className="relative pl-8 border-l-2 border-gray-200 hover:border-indigo-400 transition-colors py-2">
+                <span className="absolute -left-[9px] top-4 w-4 h-4 rounded-full bg-white border-2 border-gray-200"></span>
+                <span className="text-xs font-semibold text-indigo-500 uppercase tracking-widest mb-1 block">
+                    {work.type}
+                </span>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                    {work.title}
+                </h3>
+                <p className="text-gray-600 serif-font italic text-lg mb-4">
+                    "{work.excerpt}"
+                </p>
+                <button 
+                    onClick={() => onOpen(work)}
+                    className="text-sm font-medium text-gray-400 hover:text-black transition-colors inline-flex items-center gap-1"
+                >
+                    View Work <Icons.ArrowRight />
+                </button>
+            </div>
+        );
+
+        const ArtSection = ({ onOpenItem }) => {
+            return (
+                <section id="art" className="py-20 px-6 bg-gray-50 border-t border-gray-200">
+                    <div className="max-w-4xl mx-auto">
+                        <div className="flex items-center gap-4 mb-12">
+                            <h2 className="text-2xl font-serif italic text-gray-800">Creative Works</h2>
+                            <div className="h-px bg-gray-300 flex-1"></div>
+                        </div>
+
+                        <div className="space-y-12">
+                            {PORTFOLIO_DATA.creativeWorks.map(work => (
+                                <CreativeCard key={work.id} work={work} onOpen={onOpenItem} />
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Footer = () => {
+            const [copied, setCopied] = React.useState(false);
+
+            const copyEmail = () => {
+                const email = PORTFOLIO_DATA.profile.email;
+                const textArea = document.createElement("textarea");
+                textArea.value = email;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                   document.execCommand('copy');
+                   setCopied(true);
+                   setTimeout(() => setCopied(false), 2000);
+                } catch (err) {
+                   console.error('Unable to copy', err);
+                }
+                document.body.removeChild(textArea);
+            };
+
+            return (
+                <footer className="py-20 px-6 bg-white border-t border-gray-100 text-center">
+                    <div className="max-w-2xl mx-auto">
+                        <h2 className="text-3xl font-bold mb-6">Let's Create Together</h2>
+                        <p className="text-gray-500 mb-8">
+                            Whether it's optimizing a workflow or composing a new rhythm.
+                        </p>
+                        
+                        <div className="flex justify-center gap-6 mb-10">
+                            <a href={PORTFOLIO_DATA.profile.socials.linkedin} className="p-3 bg-gray-50 rounded-full hover:bg-blue-50 hover:text-blue-600 transition-all">
+                                <Icons.Linkedin />
+                            </a>
+                            <a href={PORTFOLIO_DATA.profile.socials.github} className="p-3 bg-gray-50 rounded-full hover:bg-gray-200 transition-all">
+                                <Icons.Github />
+                            </a>
+                            <button onClick={copyEmail} className="relative p-3 bg-gray-50 rounded-full hover:bg-green-50 hover:text-green-600 transition-all group">
+                                <Icons.Mail />
+                                {copied && (
+                                    <span className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs py-1 px-2 rounded">
+                                        Copied!
+                                    </span>
+                                )}
+                            </button>
+                        </div>
+
+                        <p className="text-xs text-gray-300 uppercase tracking-widest">
+                            © {new Date().getFullYear()} {PORTFOLIO_DATA.profile.name}
+                        </p>
+                    </div>
+                </footer>
+            );
+        };
+
+        const App = () => {
+            const [selectedItem, setSelectedItem] = React.useState(null);
+
+            const handleOpen = (item) => {
+                setSelectedItem(item);
+                // Prevent background scrolling
+                document.body.style.overflow = 'hidden';
+            };
+
+            const handleClose = () => {
+                setSelectedItem(null);
+                // Restore background scrolling
+                document.body.style.overflow = 'auto';
+            };
+
+            return (
+                <div className="min-h-screen">
+                    <Nav />
+                    <main>
+                        <Hero />
+                        <TechStack />
+                        <DevSection onOpenItem={handleOpen} />
+                        <ArtSection onOpenItem={handleOpen} />
+                    </main>
+                    <Footer />
+                    
+                    <Modal 
+                        isOpen={!!selectedItem} 
+                        onClose={handleClose} 
+                        content={selectedItem} 
+                    />
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+
+    </script>
+</body>
+</html>
